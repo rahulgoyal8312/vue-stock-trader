@@ -17,16 +17,16 @@
 
         <div class="collapse navbar-collapse"  id="collapsibleNavbar" :class="{'show': navbarOpen}">
             <ul class="navbar-nav ml-auto">
-                <router-link to="/" tag="li" class="nav-item">
-                    <a class="nav-link">End Day</a>
-                </router-link>
+                <!-- <router-link to="/" tag="li" class="nav-item"> -->
+                    <a class="nav-link nav-item" role="button" @click="endDay(); dropdownOpen = false;">End Day</a>
+                <!-- </router-link> -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" role="button" id="navbarDropdown" @click="toggleDropdown()">
                         Save & Load
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" :class="{'show': dropdownOpen}">
-                        <a class="dropdown-item">Save Data</a>
-                        <a class="dropdown-item">Load Data</a>
+                        <a class="dropdown-item" @click="toggleDropdown(); saveData();">Save Data</a>
+                        <a class="dropdown-item" @click="toggleDropdown(); loadData();">Load Data</a>
                     </div>
                 </li>
             </ul>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
     data: function(){
         return {
@@ -42,14 +44,40 @@ export default {
             dropdownOpen: false
         }
     },
+
     methods: {
+
+        ...mapActions({
+            loadStockData: 'loadData'
+        }),
+
         toggleNavbar(){
             // console.log(this.navbarOpen);
             this.navbarOpen = !this.navbarOpen;
         },
+
         toggleDropdown(){
             // console.log(this.dropdownOpen);
             this.dropdownOpen = !this.dropdownOpen;
+        },
+
+        endDay(){
+            console.log('hello');
+            this.$store.dispatch('randStocks');
+        },
+
+        saveData(){
+            const data = {
+                stocks: this.$store.getters.stocks,
+                stockPortfolio: this.$store.getters.stockPortfolio,
+                funds: this.$store.getters.funds
+            };
+
+            this.$http.put('data.json',data);
+        },
+
+        loadData(){
+            this.loadStockData();
         }
     }
 }

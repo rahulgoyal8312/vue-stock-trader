@@ -7,10 +7,11 @@
     "build": "vue-cli-service build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://rahulgoyal8312.github.io/stock-trader/",
+  "homepage": "https://rahulgoyal8312.github.io/vue-stock-trader/",
   "dependencies": {
     "gh-pages": "^2.0.1",
     "vue": "^2.5.22",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
